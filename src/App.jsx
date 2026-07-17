@@ -1,65 +1,47 @@
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { AppProvider } from './AppContext';
+import { useApp } from './hooks/useApp';
 import AuthGate from './components/AuthGate';
 import Header from './components/Header';
-import Home from './components/Home';
-import Profile from './components/Profile';
-import Scoreboard from './components/Scoreboard';
-import Friends from './components/Friends';
+import HomeScreen from './components/HomeScreen';
+import ProfileScreen from './components/ProfileScreen';
+import LeaderboardScreen from './components/LeaderboardScreen';
+import FriendsScreen from './components/FriendsScreen';
 
-const defaultUser = {
-  fullName: 'سهيل العراقي',
-  username: 'sohail',
-  nickname: 'el3iraky',
-  age: 25,
-  password: '123456',
-  wins: 12,
-  losses: 3,
-};
-
-function App() {
-  const [authenticated, setAuthenticated] = useState(false);
-  const [user, setUser] = useState(defaultUser);
-  const [activeTab, setActiveTab] = useState('home');
-
-  const handleSignUp = (newUser) => {
-    setUser((prev) => ({ ...prev, ...newUser, wins: 0, losses: 0 }));
-  };
-
-  const handleLogin = (creds) => {
-    if (creds.username === user.username && creds.password === user.password) {
-      setAuthenticated(true);
-    }
-  };
-
-  const handleUpdateUser = (updates) => {
-    setUser((prev) => ({ ...prev, ...updates }));
-  };
+function AppContent() {
+  const { currentUser, currentUserData, activeTab, setActiveTab } = useApp();
 
   const Screen = useMemo(() => {
     switch (activeTab) {
       case 'home':
-        return Home;
+        return HomeScreen;
       case 'profile':
-        return () => <Profile user={user} onUpdateUser={handleUpdateUser} />;
+        return ProfileScreen;
       case 'scoreboard':
-        return Scoreboard;
+        return LeaderboardScreen;
       case 'friends':
-        return Friends;
+        return FriendsScreen;
       default:
-        return Home;
+        return HomeScreen;
     }
-  }, [activeTab, user]);
+  }, [activeTab]);
 
   return (
-    <div className="h-screen w-full bg-void">
-      {!authenticated ? (
-        <div className="flex h-full w-full items-center justify-center">
-          <AuthGate onLogin={handleLogin} onSignUp={handleSignUp} defaultUser={user} />
+    <div className="relative min-h-screen w-full">
+      <div
+        className="fixed inset-0 -z-20 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/webbg.png')" }}
+      />
+      <div className="fixed inset-0 -z-10 bg-black/50 backdrop-blur-md" />
+
+      {!currentUser || !currentUserData ? (
+        <div className="flex min-h-screen w-full items-center justify-center px-4">
+          <AuthGate />
         </div>
       ) : (
-        <div className="relative mx-auto flex h-full w-full max-w-md flex-col justify-between overflow-hidden bg-phone shadow-2xl">
-          <Header activeTab={activeTab} setActiveTab={setActiveTab} user={user} />
+        <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-md flex-col justify-between overflow-hidden bg-[#130924]/90 shadow-2xl">
+          <Header activeTab={activeTab} setActiveTab={setActiveTab} />
 
           <main className="flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
             <AnimatePresence mode="wait">
@@ -78,6 +60,14 @@ function App() {
         </div>
       )}
     </div>
+  );
+}
+
+function App() {
+  return (
+    <AppProvider>
+      <AppContent />
+    </AppProvider>
   );
 }
 
