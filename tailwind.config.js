@@ -12,7 +12,7 @@ export default {
       },
       fontFamily: {
         sans: ["system-ui", "Tahoma", "sans-serif"],
-        brand: ["Rockybilly", "system-ui", "sans-serif"],
+        brand: ["EagleHorizon", "system-ui", "sans-serif"],
       },
     },
   },
