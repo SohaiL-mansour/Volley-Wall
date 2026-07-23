@@ -11,11 +11,11 @@ function Header({ activeTab, setActiveTab }) {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-white/5 bg-phone/80 px-4 py-3 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-white/5 bg-phone/80 px-4 py-2 backdrop-blur-md">
       <div className="grid grid-cols-3 items-center gap-2">
         <div className="flex flex-col items-center justify-center leading-none">
           <h1
-            className="font-brand text-[1.6rem] leading-[0.85] text-crimson"
+            className="font-brand text-[1.15rem] leading-[0.85] text-crimson"
             style={{ textShadow: '0 0 18px rgba(139,0,0,0.95), 0 0 8px rgba(220,38,38,0.85)' }}
           >
             <span className="block">VOLLEY</span>

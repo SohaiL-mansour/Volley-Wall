@@ -11,7 +11,7 @@ export default {
         "phone-light": "#1a0d2e",
       },
       fontFamily: {
-        sans: ["system-ui", "Tahoma", "sans-serif"],
+        sans: ["MeilaArabic", "system-ui", "Tahoma", "sans-serif"],
         brand: ["EagleHorizon", "system-ui", "sans-serif"],
       },
     },
