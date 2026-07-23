@@ -8,6 +8,7 @@ import HomeScreen from './components/HomeScreen';
 import ProfileScreen from './components/ProfileScreen';
 import LeaderboardScreen from './components/LeaderboardScreen';
 import FriendsScreen from './components/FriendsScreen';
+import AdminScreen from './components/AdminScreen';
 
 function AppContent() {
   const { currentUser, currentUserData, activeTab, setActiveTab } = useApp();
@@ -22,6 +23,8 @@ function AppContent() {
         return LeaderboardScreen;
       case 'friends':
         return FriendsScreen;
+      case 'admin':
+        return AdminScreen;
       default:
         return HomeScreen;
     }

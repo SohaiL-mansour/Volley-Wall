@@ -17,10 +17,15 @@ function FriendsScreen() {
   const filtered = allPlayers.filter((u) => u.fullName.includes(query) || u.nickname.includes(query));
 
   const incomingFriends = friendRequests.filter((r) => r.to === current && r.status === 'pending');
-  const incomingTournaments = tournamentInvites.filter((i) => i.to === current && i.status === 'pending');
+  const incomingTournaments = tournamentInvites.filter((i) => i.to === current);
 
   const getFriendStatus = (nickname) => {
-    if (currentUserData?.friends.includes(nickname)) return 'friend';
+    const accepted = friendRequests.find(
+      (r) =>
+        r.status === 'accepted' &&
+        ((r.from === current && r.to === nickname) || (r.to === current && r.from === nickname))
+    );
+    if (accepted) return 'friend';
     const sent = friendRequests.find((r) => r.from === current && r.to === nickname && r.status === 'pending');
     if (sent) return 'pending';
     const received = friendRequests.find((r) => r.to === current && r.from === nickname && r.status === 'pending');
@@ -28,9 +33,9 @@ function FriendsScreen() {
     return 'none';
   };
 
-  const handleAdd = (nickname) => {
+  const handleAdd = async (nickname) => {
     setMsg('');
-    const res = sendFriendRequest(nickname);
+    const res = await sendFriendRequest(nickname);
     if (res) setMsg(res);
   };
 
@@ -173,14 +178,13 @@ function FriendsScreen() {
                     <p className="py-6 text-center text-sm text-white/50">مفيش دعوات بطولات</p>
                   ) : (
                     incomingTournaments.map((i) => {
-                      const fromUser = users[i.from];
-                      const tournament = { 1: 'DaCentro Mall', 2: 'padbol arena' }[i.tournamentId];
+                      const fromUser = users[i.from?.toLowerCase?.()];
                       return (
                         <div key={i.id} className="rounded-xl bg-phone p-3 text-center">
                           <div className="mb-2 flex items-center justify-center gap-2">
                             <Swords className="h-4 w-4 text-crimson" />
                             <p className="text-sm font-bold text-white">
-                              {fromUser?.fullName || i.from} يدعوك للانضمام في {i.teamName || 'فريق'} لبطولة {tournament}
+                              {fromUser?.fullName || i.from} يدعوك للانضمام في {i.teamName || 'فريق'} لبطولة {i.tournament || ''}
                             </p>
                           </div>
                           <div className="flex justify-center gap-2">

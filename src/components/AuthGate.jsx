@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { Mail } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Trophy, UserPlus, LogIn, Upload, Smartphone } from 'lucide-react';
 import { useApp } from '../hooks/useApp';
@@ -8,10 +9,12 @@ function AuthGate() {
   const { login, signUp } = useApp();
   const [mode, setMode] = useState('login');
   const [error, setError] = useState('');
-  const [loginForm, setLoginForm] = useState({ nickname: '', password: '' });
+  const [success, setSuccess] = useState('');
+  const [loginForm, setLoginForm] = useState({ email: '', password: '' });
   const [signup, setSignup] = useState({
     fullName: '',
     nickname: '',
+    email: '',
     age: '',
     mobile: '',
     password: '',
@@ -21,16 +24,17 @@ function AuthGate() {
 
   const validateMobile = (mobile) => /^01[0125]\d{8}$/.test(mobile);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
-    const msg = login(loginForm.nickname.trim(), loginForm.password);
+    const msg = await login(loginForm.email.trim(), loginForm.password);
     if (msg) setError(msg);
   };
 
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
     if (!validateMobile(signup.mobile)) {
       setError('رقم الموبايل لازم يكون 11 رقم ويبدأ بـ 010 / 011 / 012 / 015');
       return;
@@ -39,15 +43,21 @@ function AuthGate() {
       setError('لازم ترفع صورة شخصية');
       return;
     }
-    const msg = signUp({
+    const msg = await signUp({
       fullName: signup.fullName.trim(),
       nickname: signup.nickname.trim(),
+      email: signup.email.trim(),
       age: Number(signup.age) || 0,
       mobile: signup.mobile.trim(),
       password: signup.password,
       avatar: signup.avatar,
     });
-    if (msg) setError(msg);
+    if (msg) {
+      setError(msg);
+    } else {
+      setSuccess('تم إنشاء الحساب. افتح الإيميل واكبس رابط التأكيد لو طلب منك، ساعات ممكن يكون التأكيد مطفي من إعدادات سوبا بيز.');
+      setSignup({ fullName: '', nickname: '', email: '', age: '', mobile: '', password: '', avatar: null });
+    }
   };
 
   const handleFile = (e) => {
@@ -109,10 +119,11 @@ function AuthGate() {
             className="w-full space-y-4"
           >
             <input
+              type="email"
               className={inputClass}
-              placeholder="اسم الشهرة (اليوزر)"
-              value={loginForm.nickname}
-              onChange={(e) => setLoginForm((p) => ({ ...p, nickname: e.target.value }))}
+              placeholder="الإيميل"
+              value={loginForm.email}
+              onChange={(e) => setLoginForm((p) => ({ ...p, email: e.target.value }))}
               required
             />
             <input
@@ -154,6 +165,17 @@ function AuthGate() {
               onChange={(e) => setSignup((p) => ({ ...p, nickname: e.target.value }))}
               required
             />
+            <div className="relative">
+              <Mail className="absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
+              <input
+                type="email"
+                className={`${inputClass} pr-10`}
+                placeholder="الإيميل"
+                value={signup.email}
+                onChange={(e) => setSignup((p) => ({ ...p, email: e.target.value }))}
+                required
+              />
+            </div>
             <div className="flex gap-3">
               <input
                 type="number"
@@ -223,6 +245,15 @@ function AuthGate() {
           className="mt-4 text-center text-sm font-bold text-crimson"
         >
           {error}
+        </motion.p>
+      )}
+      {success && (
+        <motion.p
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mt-4 text-center text-sm font-bold text-emerald-400"
+        >
+          {success}
         </motion.p>
       )}
 

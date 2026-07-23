@@ -21,13 +21,15 @@ function ProfileScreen() {
     setForm({ ...currentUserData });
   }, [currentUserData]);
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
-    updateUser({
-      ...form,
+    const msg = await updateUser({
+      fullName: form.fullName,
       age: Number(form.age) || currentUserData.age,
+      mobile: form.mobile,
+      avatar: form.avatar,
     });
-    setEdit(false);
+    if (!msg) setEdit(false);
   };
 
   const handleCancel = () => {

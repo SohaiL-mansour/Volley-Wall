@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Clock, Calendar, Users, Send, Swords, Shirt } from 'lucide-react';
 import { useApp } from '../hooks/useApp';
@@ -6,34 +6,46 @@ import Modal from './Modal';
 import Avatar from './Avatar';
 import PlayerProfileModal from './PlayerProfileModal';
 
-const tournaments = [
-  { id: 1, location: 'DaCentro Mall', price: 150, baseTeams: 6, maxTeams: 8 },
-  { id: 2, location: 'padbol arena', price: 150, baseTeams: 4, maxTeams: 8 },
-];
-
-const matches = [
-  { id: 1, time: '08:00 م', teamA: { name: 'العراقي', players: ['sohail', 'ali'] }, teamB: { name: 'الأهرام', players: ['ahmed', 'khaled'] } },
-  { id: 2, time: '09:30 م', teamA: { name: 'الزمالك', players: ['ahmed', 'mohamed'] }, teamB: { name: 'الأهلي', players: ['sohail', 'khaled'] } },
-  { id: 3, time: '11:00 م', teamA: { name: 'بورسعيد', players: ['mohamed', 'ali'] }, teamB: { name: 'الإسكندرية', players: ['sohail', 'ahmed'] } },
-];
-
 function HomeScreen() {
-  const { users, currentUserData, currentTournamentTeams, getTournamentStatus, sendTournamentInvite } = useApp();
+  const {
+    users,
+    currentUserData,
+    tournaments,
+    currentTournamentTeams,
+    getTournamentStatus,
+    sendTournamentInvite,
+    respondTournamentInvite,
+    friendRequests,
+    getMatchSchedule,
+  } = useApp();
   const [inviteModal, setInviteModal] = useState(null);
   const [teamName, setTeamName] = useState('');
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [inviteMsg, setInviteMsg] = useState('');
 
-  const friends = currentUserData?.friends.map((n) => users[n]).filter(Boolean) || [];
+  const friends = useMemo(() => {
+    if (!currentUserData) return [];
+    const nicknames = new Set();
+    for (const r of friendRequests) {
+      if (r.status !== 'accepted') continue;
+      const other = r.from === currentUserData.nickname ? r.to : r.from;
+      if (other && other !== currentUserData.nickname) nicknames.add(other);
+    }
+    return Array.from(nicknames)
+      .map((n) => users[n?.toLowerCase?.()])
+      .filter(Boolean);
+  }, [friendRequests, currentUserData, users]);
 
-  const handleInvite = (tournament, friend) => {
+  const matches = getMatchSchedule();
+
+  const handleInvite = async (tournament, friend) => {
     setInviteMsg('');
     if (!teamName.trim()) {
       setInviteMsg('اكتب اسم التيم الأول');
       return;
     }
-    const msg = sendTournamentInvite(tournament.id, friend.nickname, teamName.trim());
+    const msg = await sendTournamentInvite(tournament.id, friend.nickname, teamName.trim());
     if (msg) {
       setInviteMsg(msg);
       return;
@@ -86,7 +98,28 @@ function HomeScreen() {
                   {status.teamName} مسجل مع {users[status.partner]?.fullName || status.partner}
                 </span>
               )}
-              {status.state === 'pending' && (
+              {status.state === 'pending' && status.isIncoming && (
+                <div className="mb-4 flex flex-col items-center gap-2">
+                  <span className="inline-block rounded-full bg-amber-500/15 px-3 py-1 text-xs font-bold text-amber-400">
+                    {status.teamName} - دعوة من {users[status.partner]?.fullName || status.partner}
+                  </span>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => respondTournamentInvite(status.teamId, true)}
+                      className="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-bold text-white"
+                    >
+                      قبول
+                    </button>
+                    <button
+                      onClick={() => respondTournamentInvite(status.teamId, false)}
+                      className="rounded-lg bg-rose-600 px-3 py-1.5 text-xs font-bold text-white"
+                    >
+                      رفض
+                    </button>
+                  </div>
+                </div>
+              )}
+              {status.state === 'pending' && !status.isIncoming && (
                 <span className="mb-4 inline-block rounded-full bg-amber-500/15 px-3 py-1 text-xs font-bold text-amber-400">
                   {status.teamName} بانتظار موافقة {users[status.partner]?.fullName || status.partner}
                 </span>
@@ -118,42 +151,46 @@ function HomeScreen() {
         </div>
 
         <div className="space-y-3">
-          {matches.map((m) => (
-            <div
-              key={m.id}
-              className="flex items-center justify-between rounded-xl bg-phone p-3"
-            >
-              <button
-                onClick={() => setSelectedTeam(m.teamA)}
-                className="flex flex-1 flex-col items-center rounded-lg py-2 transition hover:bg-white/5"
+          {matches.length === 0 ? (
+            <p className="py-6 text-center text-sm text-white/50">مفيش ماتشات لسه</p>
+          ) : (
+            matches.map((m) => (
+              <div
+                key={m.id}
+                className="flex items-center justify-between rounded-xl bg-phone p-3"
               >
-                <span className="text-sm font-bold text-white">{m.teamA.name}</span>
-                <div className="mt-1 flex -space-x-2 space-x-reverse">
-                  {m.teamA.players.map((n) => (
-                    <Avatar key={n} user={users[n]} size="sm" className="ring-2 ring-phone" />
-                  ))}
+                <button
+                  onClick={() => setSelectedTeam(m.teamA)}
+                  className="flex flex-1 flex-col items-center rounded-lg py-2 transition hover:bg-white/5"
+                >
+                  <span className="text-sm font-bold text-white">{m.teamA.name}</span>
+                  <div className="mt-1 flex -space-x-2 space-x-reverse">
+                    {m.teamA.players.map((n) => (
+                      <Avatar key={n} user={users[n?.toLowerCase?.()]} size="sm" className="ring-2 ring-phone" />
+                    ))}
+                  </div>
+                </button>
+                <div className="flex flex-col items-center px-2">
+                  <span className="text-xs font-extrabold text-crimson">VS</span>
+                  <div className="mt-1 flex items-center gap-1 text-xs text-white/60">
+                    <Clock className="h-3 w-3" />
+                    {m.time}
+                  </div>
                 </div>
-              </button>
-              <div className="flex flex-col items-center px-2">
-                <span className="text-xs font-extrabold text-crimson">VS</span>
-                <div className="mt-1 flex items-center gap-1 text-xs text-white/60">
-                  <Clock className="h-3 w-3" />
-                  {m.time}
-                </div>
+                <button
+                  onClick={() => setSelectedTeam(m.teamB)}
+                  className="flex flex-1 flex-col items-center rounded-lg py-2 transition hover:bg-white/5"
+                >
+                  <span className="text-sm font-bold text-white">{m.teamB.name}</span>
+                  <div className="mt-1 flex -space-x-2 space-x-reverse">
+                    {m.teamB.players.map((n) => (
+                      <Avatar key={n} user={users[n?.toLowerCase?.()]} size="sm" className="ring-2 ring-phone" />
+                    ))}
+                  </div>
+                </button>
               </div>
-              <button
-                onClick={() => setSelectedTeam(m.teamB)}
-                className="flex flex-1 flex-col items-center rounded-lg py-2 transition hover:bg-white/5"
-              >
-                <span className="text-sm font-bold text-white">{m.teamB.name}</span>
-                <div className="mt-1 flex -space-x-2 space-x-reverse">
-                  {m.teamB.players.map((n) => (
-                    <Avatar key={n} user={users[n]} size="sm" className="ring-2 ring-phone" />
-                  ))}
-                </div>
-              </button>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
 
@@ -206,7 +243,7 @@ function HomeScreen() {
           <Modal title={selectedTeam.name} titleIcon={Swords} onClose={() => setSelectedTeam(null)}>
             <div className="flex justify-center gap-4">
               {selectedTeam.players.map((n) => {
-                const p = users[n];
+                const p = users[n?.toLowerCase?.()];
                 return (
                   <button
                     key={n}

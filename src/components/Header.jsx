@@ -1,13 +1,14 @@
-import { Home, Trophy, Users } from 'lucide-react';
+import { Home, Trophy, Users, Settings } from 'lucide-react';
 import { useApp } from '../hooks/useApp';
 import Avatar from './Avatar';
 
 function Header({ activeTab, setActiveTab }) {
-  const { currentUserData } = useApp();
+  const { currentUserData, currentUserIsAdmin } = useApp();
   const nav = [
     { id: 'home', icon: Home, label: 'Home' },
     { id: 'scoreboard', icon: Trophy, label: 'Leaderboard' },
     { id: 'friends', icon: Users, label: 'Friends' },
+    ...(currentUserIsAdmin ? [{ id: 'admin', icon: Settings, label: 'Admin' }] : []),
   ];
 
   return (
