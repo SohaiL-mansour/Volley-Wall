@@ -180,7 +180,7 @@ function FriendsScreen() {
                           <div className="mb-2 flex items-center justify-center gap-2">
                             <Swords className="h-4 w-4 text-crimson" />
                             <p className="text-sm font-bold text-white">
-                              {fromUser?.fullName || i.from} يدعوك للانضمام معه في بطولة {tournament}
+                              {fromUser?.fullName || i.from} يدعوك للانضمام في {i.teamName || 'فريق'} لبطولة {tournament}
                             </p>
                           </div>
                           <div className="flex justify-center gap-2">

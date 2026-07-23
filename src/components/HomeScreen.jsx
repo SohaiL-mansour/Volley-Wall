@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Clock, Calendar, Users, Send, Swords } from 'lucide-react';
+import { MapPin, Clock, Calendar, Users, Send, Swords, Shirt } from 'lucide-react';
 import { useApp } from '../hooks/useApp';
 import Modal from './Modal';
 import Avatar from './Avatar';
@@ -20,6 +20,7 @@ const matches = [
 function HomeScreen() {
   const { users, currentUserData, currentTournamentTeams, getTournamentStatus, sendTournamentInvite } = useApp();
   const [inviteModal, setInviteModal] = useState(null);
+  const [teamName, setTeamName] = useState('');
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [inviteMsg, setInviteMsg] = useState('');
@@ -28,11 +29,16 @@ function HomeScreen() {
 
   const handleInvite = (tournament, friend) => {
     setInviteMsg('');
-    const msg = sendTournamentInvite(tournament.id, friend.nickname);
+    if (!teamName.trim()) {
+      setInviteMsg('اكتب اسم التيم الأول');
+      return;
+    }
+    const msg = sendTournamentInvite(tournament.id, friend.nickname, teamName.trim());
     if (msg) {
       setInviteMsg(msg);
       return;
     }
+    setTeamName('');
     setInviteModal(null);
   };
 
@@ -77,12 +83,12 @@ function HomeScreen() {
 
               {status.state === 'registered' && (
                 <span className="mb-4 inline-block rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-bold text-emerald-400">
-                  تم التسجيل بنجاح مع {users[status.partner]?.fullName || status.partner}
+                  {status.teamName} مسجل مع {users[status.partner]?.fullName || status.partner}
                 </span>
               )}
               {status.state === 'pending' && (
                 <span className="mb-4 inline-block rounded-full bg-amber-500/15 px-3 py-1 text-xs font-bold text-amber-400">
-                  بانتظار موافقة {users[status.partner]?.fullName || status.partner}
+                  {status.teamName} بانتظار موافقة {users[status.partner]?.fullName || status.partner}
                 </span>
               )}
               {status.state === 'open' && full && (
@@ -153,7 +159,20 @@ function HomeScreen() {
 
       <AnimatePresence>
         {inviteModal && (
-          <Modal title="اختر زميلك في الفريق" titleIcon={Users} onClose={() => { setInviteModal(null); setInviteMsg(''); }}>
+          <Modal title="تسجيل الفريق" titleIcon={Users} onClose={() => { setInviteModal(null); setInviteMsg(''); setTeamName(''); }}>
+            <div className="mb-4 flex flex-col items-center gap-2">
+              <div className="flex items-center gap-2 text-crimson">
+                <Shirt className="h-4 w-4" />
+                <span className="text-xs font-semibold text-white/50">اسم التيم</span>
+              </div>
+              <input
+                type="text"
+                value={teamName}
+                onChange={(e) => setTeamName(e.target.value)}
+                placeholder="مثلاً: فريق العراقي"
+                className="w-full rounded-xl border border-white/10 bg-phone px-4 py-2.5 text-center text-white placeholder-white/40 outline-none focus:border-crimson focus:ring-1 focus:ring-crimson"
+              />
+            </div>
             <div className="max-h-64 overflow-y-auto">
               {friends.length === 0 ? (
                 <p className="py-6 text-center text-sm text-white/50">مش عندك صحاب لسه. ضيف صحاب من شاشة الصحاب.</p>

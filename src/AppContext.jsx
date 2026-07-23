@@ -89,8 +89,8 @@ const seedFriendRequests = [
 ];
 
 const seedTournamentInvites = [
-  { id: 1, tournamentId: 1, from: 'ahmed', to: 'sohail', status: 'pending' },
-  { id: 2, tournamentId: 2, from: 'sohail', to: 'mohamed', status: 'accepted' },
+  { id: 1, tournamentId: 1, from: 'ahmed', to: 'sohail', status: 'pending', teamName: 'فريق الزمالك' },
+  { id: 2, tournamentId: 2, from: 'sohail', to: 'mohamed', status: 'accepted', teamName: 'فريق العراقي' },
 ];
 
 export function AppProvider({ children }) {
@@ -188,16 +188,17 @@ export function AppProvider({ children }) {
     }
   };
 
-  const sendTournamentInvite = (tournamentId, toNickname) => {
+  const sendTournamentInvite = (tournamentId, toNickname, teamName) => {
     const to = toNickname.toLowerCase();
     if (!currentUser || to === currentUser) return 'مش ممكن تدعي نفسك';
     const already = tournamentInvites.find(
       (i) => i.tournamentId === tournamentId && ((i.from === currentUser && i.to === to) || (i.from === to && i.to === currentUser)) && i.status !== 'rejected'
     );
     if (already) return 'فيه دعوة معلّقة أو مقبولة للبطولة دي';
+    const displayName = teamName?.trim() || `فريق ${currentUserData?.fullName || currentUser}`;
     setTournamentInvites((prev) => [
       ...prev,
-      { id: Date.now(), tournamentId, from: currentUser, to, status: 'pending' },
+      { id: Date.now(), tournamentId, from: currentUser, to, status: 'pending', teamName: displayName },
     ]);
     return null;
   };
@@ -218,13 +219,13 @@ export function AppProvider({ children }) {
     );
     if (accepted) {
       const partner = accepted.from === current ? accepted.to : accepted.from;
-      return { state: 'registered', partner };
+      return { state: 'registered', partner, teamName: accepted.teamName };
     }
     const pendingSent = tournamentInvites.find(
       (i) => i.tournamentId === tournamentId && i.status === 'pending' && i.from === current
     );
     if (pendingSent) {
-      return { state: 'pending', partner: pendingSent.to };
+      return { state: 'pending', partner: pendingSent.to, teamName: pendingSent.teamName };
     }
     return { state: 'open' };
   };
