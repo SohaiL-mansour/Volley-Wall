@@ -14,30 +14,20 @@ function Header({ activeTab, setActiveTab }) {
     <header className="sticky top-0 z-50 w-full border-b border-white/5 bg-phone/80 px-4 py-3 backdrop-blur-md">
       <div className="grid grid-cols-3 items-center gap-2">
         <div className="flex flex-col items-center justify-center leading-none">
-          <span
-            className="text-[1.05rem] font-black leading-none tracking-tighter text-transparent"
+          <h1
+            className="text-[1.35rem] font-black leading-[0.85] tracking-widest text-transparent"
             style={{
-              WebkitTextStroke: '1.2px white',
-              textShadow: '0 0 14px rgba(139,0,0,0.9)',
-              backgroundImage: 'linear-gradient(to bottom, #6b21a8, #8b0000)',
+              fontFamily: "'Orbitron', system-ui, sans-serif",
+              WebkitTextStroke: '1.2px #f8f7fa',
+              textShadow: '0 0 18px rgba(139,0,0,0.95), 0 0 6px rgba(107,33,168,0.8)',
+              backgroundImage: 'linear-gradient(180deg, #9333ea 0%, #8b0000 55%, #ff0033 100%)',
               WebkitBackgroundClip: 'text',
               backgroundClip: 'text',
             }}
           >
-            VOLLEY
-          </span>
-          <span
-            className="text-[1.05rem] font-black leading-none tracking-tighter text-transparent"
-            style={{
-              WebkitTextStroke: '1.2px white',
-              textShadow: '0 0 14px rgba(139,0,0,0.9)',
-              backgroundImage: 'linear-gradient(to bottom, #8b0000, #6b21a8)',
-              WebkitBackgroundClip: 'text',
-              backgroundClip: 'text',
-            }}
-          >
-            WALL
-          </span>
+            <span className="block">VOLLEY</span>
+            <span className="block">WALL</span>
+          </h1>
         </div>
 
         <nav className="flex items-center justify-center gap-3">
