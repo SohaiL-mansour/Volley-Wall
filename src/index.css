@@ -1,4 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap');
+@font-face {
+  font-family: 'Rockybilly';
+  src: url('/fonts/Rockybilly.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

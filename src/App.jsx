@@ -30,10 +30,10 @@ function AppContent() {
   return (
     <div className="relative min-h-screen w-full">
       <div
-        className="fixed inset-0 -z-20 bg-cover bg-center bg-no-repeat"
+        className="fixed inset-0 -z-20 scale-110 bg-cover bg-center bg-no-repeat blur-3xl brightness-[0.4]"
         style={{ backgroundImage: "url('/webbg.png')" }}
       />
-      <div className="fixed inset-0 -z-10 bg-black/50 backdrop-blur-md" />
+      <div className="fixed inset-0 -z-10 bg-black/50" />
 
       {!currentUser || !currentUserData ? (
         <div className="flex min-h-screen w-full items-center justify-center px-4">
