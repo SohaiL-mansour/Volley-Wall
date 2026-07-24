@@ -134,7 +134,7 @@ function HomeScreen() {
                 <button
                   disabled={full}
                   onClick={() => setInviteModal(t)}
-                  className="w-full rounded-xl bg-crimson py-3 text-sm font-bold text-white shadow-md transition hover:bg-crimson-light disabled:bg-white/10 disabled:text-white/40"
+                  className="w-full rounded-2xl bg-crimson py-4 text-base font-bold text-white shadow-lg transition hover:bg-crimson-light disabled:bg-white/10 disabled:text-white/40"
                 >
                   {full ? 'اكتملت الفرق' : 'سجل في البطولة'}
                 </button>

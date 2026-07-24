@@ -7,35 +7,21 @@
 }
 
 @font-face {
-  font-family: 'MeilaArabic';
-  src: url('/fonts/MeilaArabicDEMO-Solid.otf?v=1') format('opentype');
-  font-weight: 400;
+  font-family: 'Blaka';
+  src: url('/fonts/Blaka-Regular.ttf?v=1') format('truetype');
+  font-weight: normal;
   font-style: normal;
   font-display: swap;
+  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
 }
 
 @font-face {
-  font-family: 'MeilaArabic';
-  src: url('/fonts/MeilaArabicDEMO-LineLight.otf?v=1') format('opentype');
-  font-weight: 200;
+  font-family: 'Trox';
+  src: url('/fonts/Trox.ttf?v=1') format('truetype');
+  font-weight: normal;
   font-style: normal;
   font-display: swap;
-}
-
-@font-face {
-  font-family: 'MeilaArabic';
-  src: url('/fonts/MeilaArabicDEMO-LineRegular.otf?v=1') format('opentype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'MeilaArabic';
-  src: url('/fonts/MeilaArabicDEMO-LineBold.otf?v=1') format('opentype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
+  unicode-range: U+0000-007F, U+0080-00FF, U+0100-017F;
 }
 
 @tailwind base;
@@ -44,7 +30,7 @@
 
 :root {
   color-scheme: dark;
-  font-family: 'MeilaArabic', system-ui, Tahoma, sans-serif;
+  font-family: 'Trox', 'Blaka', system-ui, Tahoma, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -58,7 +44,7 @@ body,
 
 body {
   margin: 0;
-  background-color: #0e0616;
+  background-color: transparent;
   color: #f8f7fa;
 }
 
@@ -66,7 +52,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #0e0616;
+  background-color: transparent;
 }
 
 * {
@@ -79,5 +65,5 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background-color: #8b0000;
-  border-radius: 999px;
+  border-radius: 9999px;
 }

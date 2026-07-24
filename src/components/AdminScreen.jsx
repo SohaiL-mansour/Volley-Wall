@@ -144,9 +144,9 @@ function AdminScreen() {
           </div>
           <button
             type="submit"
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-crimson py-3 font-bold text-white shadow transition hover:bg-crimson-light"
+            className="flex w-full items-center justify-center gap-2 rounded-2xl bg-crimson py-4 text-base font-bold text-white shadow-lg transition hover:bg-crimson-light"
           >
-            <Plus className="h-4 w-4" /> إضافة بطولة
+            <Plus className="h-5 w-5" /> إضافة بطولة
           </button>
         </form>
       )}
@@ -207,9 +207,9 @@ function AdminScreen() {
 
           <button
             type="submit"
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-crimson py-3 font-bold text-white shadow transition hover:bg-crimson-light"
+            className="flex w-full items-center justify-center gap-2 rounded-2xl bg-crimson py-4 text-base font-bold text-white shadow-lg transition hover:bg-crimson-light"
           >
-            <Plus className="h-4 w-4" /> إضافة ماتش
+            <Plus className="h-5 w-5" /> إضافة ماتش
           </button>
         </form>
       )}
@@ -281,9 +281,9 @@ function AdminScreen() {
 
           <button
             type="submit"
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-crimson py-3 font-bold text-white shadow transition hover:bg-crimson-light"
+            className="flex w-full items-center justify-center gap-2 rounded-2xl bg-crimson py-4 text-base font-bold text-white shadow-lg transition hover:bg-crimson-light"
           >
-            <Trophy className="h-4 w-4" /> تسجيل النتيجة
+            <Trophy className="h-5 w-5" /> تسجيل النتيجة
           </button>
         </form>
       )}

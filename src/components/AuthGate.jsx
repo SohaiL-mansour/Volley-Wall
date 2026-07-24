@@ -76,9 +76,10 @@ function AuthGate() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="flex min-h-screen w-full max-w-md flex-col items-center justify-center bg-phone/90 px-6 text-center"
+      className="flex min-h-screen w-full max-w-md flex-col items-center justify-center px-6 py-8 text-center"
     >
-      <div className="mb-8 flex flex-col items-center">
+      <div className="w-full rounded-3xl bg-[#130924]/70 p-6 shadow-2xl backdrop-blur-md">
+        <div className="mb-8 flex flex-col items-center">
         <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-2xl bg-crimson/20 shadow-[0_0_40px_rgba(139,0,0,0.45)]">
           <Trophy className="h-10 w-10 text-crimson" />
         </div>
@@ -136,7 +137,7 @@ function AuthGate() {
             />
             <button
               type="submit"
-              className="w-full rounded-xl bg-gradient-to-r from-crimson to-crimson-light py-3.5 font-bold text-white shadow-lg transition hover:brightness-110"
+              className="w-full rounded-2xl bg-gradient-to-r from-crimson to-crimson-light py-4 text-lg font-bold text-white shadow-lg transition hover:brightness-110"
             >
               دخول
             </button>
@@ -230,7 +231,7 @@ function AuthGate() {
 
             <button
               type="submit"
-              className="w-full rounded-xl bg-gradient-to-r from-crimson to-crimson-light py-3.5 font-bold text-white shadow-lg transition hover:brightness-110"
+              className="w-full rounded-2xl bg-gradient-to-r from-crimson to-crimson-light py-4 text-lg font-bold text-white shadow-lg transition hover:brightness-110"
             >
               إنشاء حساب
             </button>
@@ -260,7 +261,7 @@ function AuthGate() {
       <button
         type="button"
         onClick={() => {}}
-        className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 py-3 text-sm font-bold text-white shadow-[0_0_18px_rgba(139,0,0,0.25)] transition hover:bg-white/10"
+        className="mt-6 flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 py-4 text-lg font-bold text-white shadow-lg transition hover:bg-blue-500"
       >
         <svg className="h-5 w-5" viewBox="0 0 24 24">
           <path
@@ -268,8 +269,9 @@ function AuthGate() {
             d="M12.545 10.239v3.821h5.445c-.712 2.315-2.646 3.972-5.445 3.972a6.033 6.033 0 110-12.064c1.498 0 2.866.549 3.921 1.453l2.814-2.814A9.969 9.969 0 0012.545 2C6.477 2 1.545 6.932 1.545 13s4.932 11 11 11 11-4.932 11-11c0-.732-.074-1.446-.214-2.136H12.545z"
           />
         </svg>
-        تسجيل الدخول باستخدام Google
+        log in with google
       </button>
+      </div>
     </motion.div>
   );
 }

@@ -33,17 +33,17 @@ function AppContent() {
   return (
     <div className="relative min-h-screen w-full">
       <div
-        className="fixed inset-0 -z-20 scale-110 bg-cover bg-center bg-no-repeat blur-3xl brightness-[0.4]"
-        style={{ backgroundImage: "url('/webbg.png')" }}
+        className="fixed inset-0 -z-20 scale-110 bg-cover bg-center bg-no-repeat blur-2xl brightness-100"
+        style={{ backgroundImage: "url('/webbg.jpg')" }}
       />
-      <div className="fixed inset-0 -z-10 bg-black/50" />
+      <div className="fixed inset-0 -z-10 bg-black/0" />
 
       {!currentUser || !currentUserData ? (
         <div className="flex min-h-screen w-full items-center justify-center px-4">
           <AuthGate />
         </div>
       ) : (
-        <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-md flex-col justify-between overflow-hidden bg-[#130924]/90 shadow-2xl">
+        <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-md flex-col justify-between overflow-hidden bg-[#130924]/70 shadow-2xl backdrop-blur-sm">
           <Header activeTab={activeTab} setActiveTab={setActiveTab} />
 
           <main className="flex flex-1 flex-col overflow-y-auto overflow-x-hidden">

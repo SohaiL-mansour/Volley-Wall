@@ -11,11 +11,10 @@ export default {
         "phone-light": "#1a0d2e",
       },
       fontFamily: {
-        sans: ["MeilaArabic", "system-ui", "Tahoma", "sans-serif"],
-        brand: ["EagleHorizon", "system-ui", "sans-serif"],
+        sans: ["Trox", "Blaka", "system-ui", "Tahoma", "sans-serif"],
+        brand: ["Trox", "EagleHorizon", "system-ui", "sans-serif"],
       },
     },
   },
   plugins: [],
 }
-

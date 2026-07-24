@@ -84,16 +84,16 @@ function ProfileScreen() {
 
           <button
             onClick={() => setEdit(true)}
-            className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-crimson py-3.5 font-bold text-white shadow-lg transition hover:bg-crimson-light"
+            className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-crimson py-4 text-base font-bold text-white shadow-lg transition hover:bg-crimson-light"
           >
-            <Edit3 className="h-4 w-4" /> تعديل البيانات
+            <Edit3 className="h-5 w-5" /> تعديل البيانات
           </button>
 
           <button
             onClick={logout}
-            className="flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 py-3 font-bold text-white transition hover:bg-white/10"
+            className="flex w-full items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 py-4 text-base font-bold text-white transition hover:bg-white/10"
           >
-            <LogOut className="h-4 w-4" /> تسجيل الخروج
+            <LogOut className="h-5 w-5" /> تسجيل الخروج
           </button>
         </div>
       ) : (
@@ -120,16 +120,16 @@ function ProfileScreen() {
           <div className="grid grid-cols-2 gap-3">
             <button
               type="submit"
-              className="flex items-center justify-center gap-2 rounded-xl bg-emerald-600 py-3 font-bold text-white shadow transition hover:bg-emerald-500"
+              className="flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 py-4 text-base font-bold text-white shadow transition hover:bg-emerald-500"
             >
-              <Save className="h-4 w-4" /> حفظ
+              <Save className="h-5 w-5" /> حفظ
             </button>
             <button
               type="button"
               onClick={handleCancel}
-              className="flex items-center justify-center gap-2 rounded-xl bg-rose-600 py-3 font-bold text-white shadow transition hover:bg-rose-500"
+              className="flex items-center justify-center gap-2 rounded-2xl bg-rose-600 py-4 text-base font-bold text-white shadow transition hover:bg-rose-500"
             >
-              <X className="h-4 w-4" /> إلغاء
+              <X className="h-5 w-5" /> إلغاء
             </button>
           </div>
         </form>

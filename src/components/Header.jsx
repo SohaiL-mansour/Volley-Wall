@@ -16,7 +16,7 @@ function Header({ activeTab, setActiveTab }) {
       <div className="grid grid-cols-3 items-center gap-2">
         <div className="flex flex-col items-center justify-center leading-none">
           <h1
-            className="font-brand text-[1.15rem] leading-[0.85] text-crimson"
+            className="font-brand text-[1.2rem] leading-[1.15] text-crimson"
             style={{ textShadow: '0 0 18px rgba(139,0,0,0.95), 0 0 8px rgba(220,38,38,0.85)' }}
           >
             <span className="block">VOLLEY</span>
