@@ -43,7 +43,7 @@ function AppContent() {
           <AuthGate />
         </div>
       ) : (
-        <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-md flex-col justify-between overflow-hidden bg-[#130924]/70 shadow-2xl backdrop-blur-sm">
+        <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-md flex-col justify-between overflow-hidden bg-transparent">
           <Header activeTab={activeTab} setActiveTab={setActiveTab} />
 
           <main className="flex flex-1 flex-col overflow-y-auto overflow-x-hidden">

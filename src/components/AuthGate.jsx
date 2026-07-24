@@ -69,7 +69,7 @@ function AuthGate() {
   };
 
   const inputClass =
-    'w-full rounded-xl border border-white/10 bg-phone-light px-4 py-3 text-center text-white placeholder-white/40 outline-none transition focus:border-crimson focus:ring-1 focus:ring-crimson';
+    'w-full rounded-xl border border-white/20 bg-black/30 px-4 py-3 text-center text-white placeholder-white/60 outline-none backdrop-blur-md transition focus:border-crimson focus:ring-1 focus:ring-crimson';
 
   return (
     <motion.div
@@ -78,16 +78,16 @@ function AuthGate() {
       transition={{ duration: 0.3 }}
       className="flex min-h-screen w-full max-w-md flex-col items-center justify-center px-6 py-8 text-center"
     >
-      <div className="w-full rounded-3xl bg-[#130924]/70 p-6 shadow-2xl backdrop-blur-md">
+      <div className="w-full rounded-3xl p-6">
         <div className="mb-8 flex flex-col items-center">
         <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-2xl bg-crimson/20 shadow-[0_0_40px_rgba(139,0,0,0.45)]">
           <Trophy className="h-10 w-10 text-crimson" />
         </div>
-        <h1 className="text-3xl font-bold text-white">VOLLEY WALL</h1>
-        <p className="mt-2 text-sm text-white/60">مجتمع البادبول في مصر</p>
+        <h1 className="text-3xl font-bold text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">VOLLEY WALL</h1>
+        <p className="mt-2 text-sm text-white drop-shadow-[0_1px_6px_rgba(0,0,0,0.9)]">مجتمع البادبول في مصر</p>
       </div>
 
-      <div className="mb-6 flex w-full overflow-hidden rounded-2xl bg-phone-light p-1">
+      <div className="mb-6 flex w-full overflow-hidden rounded-2xl bg-black/30 p-1 backdrop-blur-md">
         <button
           type="button"
           onClick={() => { setMode('login'); setError(''); }}
@@ -210,7 +210,7 @@ function AuthGate() {
             <button
               type="button"
               onClick={() => fileRef.current?.click()}
-              className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-white/20 bg-phone-light py-3 transition hover:border-crimson/60"
+              className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-white/20 bg-black/30 py-3 backdrop-blur-md transition hover:border-crimson/60"
             >
               {signup.avatar ? (
                 <Avatar user={signup} size="sm" />
